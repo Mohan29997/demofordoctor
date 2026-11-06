@@ -9,13 +9,17 @@ import { examState, goScene } from "./sceneState";
 export default function Motion() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+    // Mobile toolbars hiding on scroll must not re-measure the pinned exam mid-swipe.
+    ScrollTrigger.config({ ignoreMobileResize: true });
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const finePointer = matchMedia("(pointer: fine)").matches;
     const q = <T extends HTMLElement>(s: string) => gsap.utils.toArray<T>(s);
     const undo: (() => void)[] = [];
     let lenis: Lenis | null = null;
 
-    if (!reduced) {
+    // Smooth scrolling is for mouse and trackpad only. Touch screens keep native scrolling,
+    // so nothing can block a swipe during the intro or fight the browser's pinch zoom.
+    if (!reduced && finePointer) {
       lenis = new Lenis({ lerp: 0.1 });
       lenis.on("scroll", ScrollTrigger.update);
       const raf = (t: number) => lenis?.raf(t * 1000);

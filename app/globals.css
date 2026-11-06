@@ -252,3 +252,36 @@ button.on { background: var(--peach) !important; color: var(--on); border-color:
   .exam.pinned .nailed { top: 84px; }
   .hero .lede, .hero .eyebrow { text-shadow: 0 0 12px var(--bg), 0 0 4px var(--bg); }
 }
+
+/* Short phones: keep the caption card clear of the disclaimer pill. */
+@media (max-width: 400px) {
+  .exam.pinned .view { bottom: max(7svh, 48px); }
+}
+
+/* Landscape phones: little height, so scale type to fit and keep captions beside the characters. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero { padding-top: 76px; padding-bottom: 24px; }
+  .hero h1 { font-size: clamp(2.2rem, 6vw, 3.2rem); margin-bottom: 0.8rem; }
+  .eyebrow { margin-bottom: 0.6rem; }
+  .lede { font-size: 0.95rem; margin-bottom: 1rem; }
+  .btn { padding: 11px 22px; font-size: 0.9rem; }
+  .scroll-hint { display: none; }
+  .top { padding-block: 10px; }
+  .exam.pinned .left { top: 64px; max-width: 38vw; }
+  .exam.pinned .nailed { top: 60px; max-width: 46vw; }
+  .exam.pinned .view { bottom: 42px; padding: 10px 16px; }
+  .exam.pinned .exam-cap h2 { font-size: clamp(1.3rem, 3.4vw, 1.8rem); margin-bottom: 0.3rem; }
+  .exam.pinned .exam-cap p { font-size: 0.85rem; }
+  .bubble { padding: 10px 16px; margin-bottom: 8px; }
+}
+
+/* If the page's JavaScript never starts, don't leave the loader covering everything. */
+.loader { animation: loader-failsafe 0.3s 8s forwards; }
+@keyframes loader-failsafe { to { opacity: 0; visibility: hidden; } }
+
+/* Smallest iPhone SE with Safari's toolbars: keep captions above the characters. */
+@media (max-width: 400px) and (max-height: 600px) {
+  .exam.pinned .left { top: 80px; }
+  .exam.pinned .left .eyebrow { margin-bottom: 0.4rem; }
+  .exam.pinned .left h2 { font-size: 1.45rem; }
+}

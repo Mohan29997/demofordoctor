@@ -131,7 +131,9 @@ export default function ParticleScene() {
         const wide = camera.aspect > 1;
         uniforms.uTime.value = t;
         uniforms.uMorph.value = scene.morph;
-        uniforms.uOpacity.value = scene.opacity * (wide || scene.morph > 4.5 ? 1 : 0.42);
+        // Below 1100px the copy reaches the particles, so soften them. The checkmark stays solid.
+        const dim = scene.morph > 4.5 || innerWidth >= 1100 ? 1 : wide ? 0.4 : innerWidth <= 480 ? 0.15 : 0.25;
+        uniforms.uOpacity.value = scene.opacity * dim;
         mouse.x += (mouse.tx - mouse.x) * 0.08;
         mouse.y += (mouse.ty - mouse.y) * 0.08;
         // No repulsion on the checkmark, it has to stay legible.

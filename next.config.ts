@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Lets a phone on the same Wi-Fi use the dev server. Update if this Mac's IP changes. Dev only.
+  allowedDevOrigins: ["192.168.1.6"],
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {

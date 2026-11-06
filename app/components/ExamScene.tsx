@@ -243,7 +243,9 @@ export default function ExamScene() {
         renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
       };
       resize();
-      addEventListener("resize", resize);
+      // Watch the element, not the window: the pin resizes it after the window resize event fires.
+      const sizeObserver = new ResizeObserver(resize);
+      sizeObserver.observe(el);
       addEventListener("pointermove", onMove, { passive: true });
 
       let visible = false;
@@ -363,7 +365,7 @@ export default function ExamScene() {
 
       cleanup = () => {
         cancelAnimationFrame(raf); io.disconnect();
-        removeEventListener("resize", resize); removeEventListener("pointermove", onMove);
+        sizeObserver.disconnect(); removeEventListener("pointermove", onMove);
         scene.traverse((o) => {
           const m = o as InstanceType<typeof T.Mesh>;
           m.geometry?.dispose();
